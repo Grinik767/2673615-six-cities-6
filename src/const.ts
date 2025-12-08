@@ -29,6 +29,12 @@ export enum SortingOption {
   TopRatedFirst = 'Top rated first'
 }
 
+export enum NameSpace {
+  Data = 'DATA',
+  App = 'APP',
+  User = 'USER',
+}
+
 export const DEFAULT_CUSTOM_ICON = leaflet.icon({
   iconUrl: 'img/pin.svg',
   iconSize: [27, 39],
