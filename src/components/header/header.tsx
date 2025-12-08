@@ -3,12 +3,13 @@ import { AppRoute, AuthStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import Logo from '../logo/logo';
 import { logoutAction } from '../../store/api-actions';
+import { getAppUser, getAuthStatus } from '../../store/user-process/selectors';
 
 function Header(){
   const dispatch = useAppDispatch();
 
-  const user = useAppSelector((state) => state.appUser);
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const user = useAppSelector(getAppUser);
+  const authStatus = useAppSelector(getAuthStatus);
 
   const handleSignOut = (evt: React.MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();

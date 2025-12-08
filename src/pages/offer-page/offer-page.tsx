@@ -13,7 +13,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
 import Header from '../../components/header/header.tsx';
 import { fetchOfferAction } from '../../store/api-actions.ts';
 import Loader from '../../components/loader/loader.tsx';
-import { AuthStatus, MAX_REVIEW_COUNT } from '../../const.ts';
+import { AuthStatus, MAX_NEARBY_OFFERS, MAX_REVIEW_COUNT } from '../../const.ts';
+import { getAuthStatus } from '../../store/user-process/selectors.ts';
+import { getIsOfferLoading, getNearbyOffers, getOffer, getReviews } from '../../store/data-process/selectors.ts';
 
 
 function GoodsList({ goods }: { goods: string[] }){
@@ -49,13 +51,13 @@ function OfferPage() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
 
-  const authStatus = useAppSelector((state) => state.authStatus);
-  const isOfferLoading = useAppSelector((state) => state.isOfferLoading);
-  const currentOffer = useAppSelector((state) => state.offer);
-  const nearbyOffers = useAppSelector((state) => state.nearbyOffers);
-  const reviews = useAppSelector((state) => [...state.reviews]
+  const authStatus = useAppSelector(getAuthStatus);
+  const isOfferLoading = useAppSelector(getIsOfferLoading);
+  const currentOffer = useAppSelector(getOffer);
+  const nearbyOffers = useAppSelector(getNearbyOffers).slice(0, MAX_NEARBY_OFFERS);
+  const reviews = [...useAppSelector(getReviews)]
     .sort((x, y) => new Date(y.date).getTime() - new Date(x.date).getTime())
-    .slice(0, MAX_REVIEW_COUNT));
+    .slice(0, MAX_REVIEW_COUNT);
 
   const [activeNearbyOffer, setActiveNearbyOffer] = useState<OfferCard | undefined>(undefined);
 
@@ -78,7 +80,7 @@ function OfferPage() {
     setActiveNearbyOffer(activeOffer);
   };
 
-  const points: Point[] = nearbyOffers.map((offer) => ({
+  const points: Point[] = nearbyOffers.concat(currentOffer).map((offer) => ({
     id: offer.id,
     title: offer.title,
     lat: offer.location.latitude,

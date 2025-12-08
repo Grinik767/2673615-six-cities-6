@@ -6,20 +6,22 @@ import { Point, Points } from '../../types/map.ts';
 import PlaceCardsList from '../../components/place-cards-list/place-cards-list.tsx';
 import { PlaceCardLocation } from '../../types/place-card.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store.ts';
-import { changeCity, setSortingOption } from '../../store/actions.ts';
+import { changeCity, setSortingOption } from '../../store/app-process/app-process.ts';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import SortingOptions from '../../components/sorting-options/sorting-options.tsx';
 import { SortingOption } from '../../const.ts';
 import Header from '../../components/header/header.tsx';
+import { getCity, getSortingOption } from '../../store/app-process/selectors.ts';
+import { getOffers } from '../../store/data-process/selectors.ts';
 
 
 function MainPage() {
   const dispatch = useAppDispatch();
 
-  const currentCity = useAppSelector((state) => state.city);
-  const currentSortingOption = useAppSelector((state) => state.sortingOption);
+  const currentCity = useAppSelector(getCity);
+  const currentSortingOption = useAppSelector(getSortingOption);
 
-  const allOffers = useAppSelector((state) => state.offers);
+  const allOffers = useAppSelector(getOffers);
 
   const offers = useMemo(
     () => allOffers.filter((offer) => offer.city.name === currentCity.name),

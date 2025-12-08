@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { addReviewAction } from '../../store/api-actions';
 import { MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH } from '../../const';
+import { getIsReviewPosting } from '../../store/data-process/selectors';
 
 type ReviewFormProps = {
   offerId: string;
@@ -9,7 +10,7 @@ type ReviewFormProps = {
 
 function ReviewForm({offerId}: ReviewFormProps){
   const dispatch = useAppDispatch();
-  const isPosting = useAppSelector((state) => state.isReviewPosting);
+  const isPosting = useAppSelector(getIsReviewPosting);
 
   const [formData, setFormData] = useState({
     rating: 0,

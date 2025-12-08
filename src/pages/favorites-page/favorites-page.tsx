@@ -1,6 +1,7 @@
 ﻿import FavoritePlaceCard from '../../components/favorite-place-card/favorite-place-card.tsx';
 import Header from '../../components/header/header.tsx';
 import { useAppSelector } from '../../hooks/store.ts';
+import { getOffers } from '../../store/data-process/selectors.ts';
 import { OfferCards } from '../../types/offer.ts';
 
 
@@ -19,7 +20,7 @@ function getGroupedFavorites(offers: OfferCards){
 }
 
 function FavoritesPage() {
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(getOffers);
 
   return (
     <div className="page">

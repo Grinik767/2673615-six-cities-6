@@ -11,11 +11,13 @@ import { useAppSelector } from '../../hooks/store.ts';
 import HistoryRouter from '../history-router/history-router.tsx';
 import browserHistory from '../../browser-history.ts';
 import { ToastContainer } from 'react-toastify';
+import { getIsOffersLoading } from '../../store/data-process/selectors.ts';
+import { getAuthStatus } from '../../store/user-process/selectors.ts';
 
 
 function App() {
-  const isOffersLoading = useAppSelector((state) => state.isOffersLoading);
-  const authStatus = useAppSelector((state) => state.authStatus);
+  const isOffersLoading = useAppSelector(getIsOffersLoading);
+  const authStatus = useAppSelector(getAuthStatus);
 
   if (isOffersLoading || authStatus === AuthStatus.Unknown) {
     return (
